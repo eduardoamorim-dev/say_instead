@@ -1,0 +1,45 @@
+{
+  "_doc": "Regra de dependência do workspace (docs/architecture.md, ADR-0004). Mudar este arquivo exige ADR.",
+  "workspace": {
+    "crates/domain": { "mayDependOn": [] },
+    "crates/application": { "mayDependOn": ["crates/domain"] },
+    "crates/speech": { "mayDependOn": ["crates/domain"] },
+    "crates/providers": { "mayDependOn": ["crates/domain"] },
+    "crates/storage": { "mayDependOn": ["crates/domain"] },
+    "crates/knowledge": { "mayDependOn": ["crates/domain"] },
+    "src-tauri": {
+      "mayDependOn": [
+        "crates/domain",
+        "crates/application",
+        "crates/speech",
+        "crates/providers",
+        "crates/storage",
+        "crates/knowledge"
+      ]
+    }
+  },
+  "externalOnlyIn": [
+    { "pattern": "tauri*", "allowedIn": ["src-tauri"], "why": "só a casca conhece o Tauri (princípio 3, ADR-0003)" },
+    { "pattern": "rusqlite", "allowedIn": ["crates/storage"], "why": "SQL só no adaptador de armazenamento (ADR-0008)" },
+    { "pattern": "keyring", "allowedIn": ["crates/storage"], "why": "segredos só atrás da porta SecretStore (ADR-0013)" },
+    { "pattern": "sherpa*", "allowedIn": ["crates/speech"], "why": "motor de fala é adaptador (ADR-0006)" },
+    { "pattern": "symphonia*", "allowedIn": ["crates/speech"], "why": "decodificação é adaptador (ADR-0007)" },
+    { "pattern": "agent-client-protocol*", "allowedIn": ["crates/providers"], "why": "provedor é detalhe (princípio 5, ADR-0009)" },
+    { "pattern": "genai", "allowedIn": ["crates/providers"], "why": "provedor é detalhe (princípio 5, ADR-0010)" },
+    { "pattern": "windows*", "allowedIn": ["crates/speech", "crates/storage", "crates/providers", "src-tauri"], "why": "o que é específico do Windows fica em adaptador (princípio 4)" },
+    { "pattern": "reqwest", "allowedIn": ["crates/speech", "crates/providers", "crates/knowledge"], "why": "rede só em adaptador; domínio e casos de uso não fazem HTTP" }
+  ],
+  "externalDeniedIn": [
+    { "pattern": "tokio", "deniedIn": ["crates/domain"], "why": "o domínio declara portas; o runtime é escolha de quem implementa" }
+  ],
+  "frontend": {
+    "root": "ui/src",
+    "importBoundaries": [
+      {
+        "pattern": "@tauri-apps/",
+        "allowedIn": ["ui/src/ipc/"],
+        "why": "a interface fala com o núcleo só pelos comandos tipados gerados em ui/src/ipc (fronteira com a interface)"
+      }
+    ]
+  }
+}

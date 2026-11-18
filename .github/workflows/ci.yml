@@ -1,0 +1,61 @@
+# CI: a mesma verificação que os agentes rodam localmente, em máquina limpa.
+# Custo zero: só runner padrão do GitHub (gratuito em repositório público) e nenhum segredo.
+# scripts/check-zero-cost.mjs lê este arquivo e falha se aparecer runner pago ou chave de API.
+#
+# PENDENTE (tarefa de CI do marco 0): conferir a versão atual de cada action e fixar por SHA de commit.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: pnpm
+        if: hashFiles('pnpm-lock.yaml') != ''
+        uses: pnpm/action-setup@v4
+
+      - name: Dependências JS
+        if: hashFiles('pnpm-lock.yaml') != ''
+        run: pnpm install --frozen-lockfile
+
+      - name: Rust
+        if: hashFiles('Cargo.toml') != ''
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache do Rust
+        if: hashFiles('Cargo.toml') != ''
+        uses: Swatinem/rust-cache@v2
+
+      - name: cargo-deny
+        if: hashFiles('deny.toml') != ''
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-deny
+
+      - name: Identidade git para o teste do harness
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "ci"
+
+      - name: Verificação completa
+        run: node scripts/verify.mjs --full --check

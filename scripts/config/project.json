@@ -1,0 +1,7 @@
+{
+  "name": "{{APP_NAME}}",
+  "slug": "{{REPO_SLUG}}",
+  "owner": "",
+  "license": "",
+  "initialized": false
+}

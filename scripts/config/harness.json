@@ -1,0 +1,34 @@
+{
+  "mainBranch": "main",
+  "taskBranchPrefix": "task/",
+  "wipLimit": 2,
+  "productPaths": ["crates/", "src-tauri/", "ui/", "evals/"],
+  "verifyPaths": [
+    "crates/",
+    "src-tauri/",
+    "ui/",
+    "evals/",
+    "scripts/",
+    ".claude/hooks/",
+    ".github/workflows/",
+    "Cargo.toml",
+    "Cargo.lock",
+    "deny.toml",
+    "rust-toolchain.toml",
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ],
+  "boardPaths": ["docs/board/tasks/", "docs/board/reviews/", "docs/board/log.md", "docs/roadmap.md"],
+  "protected": {
+    "deny": [".env", ".env.*", "*.pem", "*.key", "*.pfx", "*.p12", ".git/**"],
+    "ask": [
+      ".claude/settings.json",
+      ".claude/hooks/**",
+      "scripts/config/**",
+      ".github/workflows/**",
+      "docs/architecture.md",
+      "LICENSE"
+    ]
+  }
+}

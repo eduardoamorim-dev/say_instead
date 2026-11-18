@@ -1,0 +1,3 @@
+# Arquivos ignorados pelo git que todo andar novo deve receber do térreo.
+# Lido por scripts/floor-setup.mjs (Maestri) e pelo `claude --worktree` (Claude Code).
+.claude/settings.local.json

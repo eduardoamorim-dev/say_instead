@@ -1,0 +1,42 @@
+# build
+target/
+node_modules/
+dist/
+*.tsbuildinfo
+
+# harness
+.verify/
+
+# estado local do Maestri (andares, responsabilidades instaladas) e worktrees do Claude Code
+# As responsabilidades versionadas ficam em maestri/roles/*.md
+.maestri/
+.claude/worktrees/
+
+# configuração pessoal
+.claude/settings.local.json
+CLAUDE.local.md
+
+# segredos: nunca no repositório
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+
+# dados reais nunca entram (só gravações encenadas e transcrições sintéticas)
+*.mp4
+*.mov
+*.m4a
+*.wav
+*.webm
+!**/fixtures/**
+
+# spikes: modelos e saídas ficam fora do git
+spikes/**/models/
+spikes/**/out/
+
+# sistema
+*.log
+Thumbs.db
+.DS_Store

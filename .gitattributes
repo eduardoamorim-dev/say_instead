@@ -1,0 +1,14 @@
+# Fim de linha LF no repositório, em qualquer sistema: o hash da árvore (carimbo de verificação) fica estável.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.icns binary
+*.onnx binary
+*.db binary
+*.wav binary
+*.mp4 binary

@@ -1,0 +1,9 @@
+{
+  "_doc": "Política de custo zero (princípio 1, ADR-0002). Mudar este arquivo exige ADR e aprovação humana.",
+  "allowedRunners": ["windows-latest", "windows-2022", "windows-2025", "ubuntu-latest", "ubuntu-24.04", "ubuntu-22.04"],
+  "allowedSecrets": ["GITHUB_TOKEN", "TAURI_SIGNING_PRIVATE_KEY", "TAURI_SIGNING_PRIVATE_KEY_PASSWORD", "SIGNPATH_API_TOKEN"],
+  "forbiddenDependencies": {
+    "cargo": ["sentry*", "posthog*", "segment*", "datadog*", "opentelemetry-otlp", "aws-sdk-*", "google-cloud-*", "azure_*"],
+    "npm": ["@sentry/*", "posthog-js", "posthog-node", "@segment/*", "mixpanel*", "@datadog/*", "@vercel/analytics", "firebase", "@supabase/*", "@amplitude/*"]
+  }
+}
