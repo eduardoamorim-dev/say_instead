@@ -34,3 +34,4 @@ node scripts/task.mjs list       # quadro de tarefas
 ## Licença
 Veja [`LICENSE`](LICENSE).
 # say_instead
+# say_instead
